@@ -10,13 +10,13 @@ import game.DragonBall;
 
 public class TileManager {
     DragonBall gp;
-    Tile[] tile;
-    int mapTileNum[][];
+    public Tile[] tile;
+    public int mapTileNum[][];
 
     public TileManager(DragonBall gp) {
         this.gp = gp;
         tile = new Tile[5];
-        mapTileNum = new int[12][12];
+        mapTileNum = new int[12][16];
         getTileImage();
         loadMap("map.txt");
     }
@@ -38,43 +38,43 @@ public class TileManager {
         try {
             InputStream in = getClass().getResourceAsStream(filepath);
             BufferedReader bR = new BufferedReader(new InputStreamReader(in));
-
+    
             int col = 0;
             int row = 0;
-            while (col < 12 && row < 12) {
-                String line = bR.readLine();
-                while (col < 12) {
-                    String numbers[] = line.split(" ");
+            String line;
+            while ((line = bR.readLine()) != null && row < 12) {
+                String numbers[] = line.split(" ");
+                for (col = 0; col < 16; col++) {
                     int num = Integer.parseInt(numbers[col]);
                     mapTileNum[row][col] = num;
-                    col++;
                 }
-                if (col == 12) {
-                    col = 0;
-                    row++;
-                }
+                row++;
             }
+    
+            bR.close();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
-    public void drawTile(Graphics g) {
+    public void drawTile(Graphics2D g) {
         int col = 0;
         int row = 0;
         int x = 0;
         int y = 0;
-        while (col < 12 && row < 12) {
+        while (col < 16 && row < 12) {
             int num = mapTileNum[row][col];
-            g.drawImage(tile[num].img, x, y, gp);
-            x += 60;
+            g.drawImage(tile[num].img, x, y, 48, 48, null);
+            x += 48;
             col++;
-            if (col == 12) {
+            if (col == 16) {
                 col = 0;
                 row++;
                 x = 0;
-                y += 60;
+                y += 48;
             }
         }
     }
 }
+
+
