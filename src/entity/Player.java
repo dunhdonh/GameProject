@@ -12,6 +12,8 @@ public class Player extends Entity {
     DragonBall gp;
     KeyHandle keyHandle;
 
+    int healthPower = 5;
+    int attackPower = 0;
     public Player(DragonBall gp, KeyHandle keyHandle) {
         this.gp = gp;
         this.keyHandle = keyHandle;
@@ -19,6 +21,8 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 24;
+        solidDefaultX = solidArea.x;
+        solidDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 24;
 
@@ -71,8 +75,13 @@ public class Player extends Entity {
                 x = Math.min(gp.screenWidth - gp.tileSize, x);
             }
 
+            // check tile collision
             collisionOn = false;
             gp.collCheck.checkTile(this);
+
+            // check item collision
+            int itemIndex = gp.collCheck.checkItem(this, true);
+            pickUpItem(itemIndex);
 
             spriteCounter++;
             if (spriteCounter > 12) {
@@ -83,6 +92,28 @@ public class Player extends Entity {
                 }
                 spriteCounter = 0;
             }
+        }
+    }
+
+    public void pickUpItem(int index) {
+        if (index != 999) {
+            String itemName = gp.item[index].name;
+
+            switch(itemName) {
+                case "Lucky":
+                if(healthPower < 5) {
+                    healthPower++;
+                    System.out.println("Health Power: " + healthPower);
+                }
+                    break;
+                case "Coin":
+                if (attackPower < 10) {
+                    attackPower++;
+                    System.out.println("Attack Power: " + attackPower);
+                }
+                    break;
+            }
+            gp.item[index] = null;
         }
     }
 
