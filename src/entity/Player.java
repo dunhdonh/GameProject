@@ -14,6 +14,13 @@ public class Player extends Entity {
 
     int healthPower = 5;
     int attackPower = 0;
+
+    public int getHealthPower() {
+        return healthPower;
+    }
+    public int getAttackPower() {
+        return attackPower;
+    }
     public Player(DragonBall gp, KeyHandle keyHandle) {
         this.gp = gp;
         this.keyHandle = keyHandle;
@@ -31,8 +38,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        this.x = 100;
-        this.y = 100;
+        this.x = 24;
+        this.y = 5*48;
         speed = 5;
         direction = "down";
     }
@@ -80,7 +87,7 @@ public class Player extends Entity {
                 switch (direction) {
                     case "up":
                         y -= speed;
-                        y = Math.max(0, y);
+                        y = Math.max(-24, y);
                         break;
                     case "down":
                         y += speed;
@@ -114,12 +121,14 @@ public class Player extends Entity {
 
             switch(itemName) {
                 case "Lucky":
+                gp.playSoundEffect(2);
                 if(healthPower < 5) {
                     healthPower++;
                     System.out.println("Health Power: " + healthPower);
                 }
                     break;
                 case "Coin":
+                gp.playSoundEffect(1);
                 if (attackPower < 10) {
                     attackPower++;
                     System.out.println("Attack Power: " + attackPower);

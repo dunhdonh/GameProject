@@ -28,7 +28,9 @@ public class DragonBall extends JPanel implements Runnable {
     TileManager tileManager = new TileManager(this);
     public CollisionCheck collCheck = new CollisionCheck(this);
     public AbsItem item[] = new AbsItem[10];
-    Sound sound = new Sound();
+    public UI ui = new UI(this);
+    public Sound music = new Sound();
+    public Sound SE = new Sound();
 
     Thread gameThread;
     // Set player default position
@@ -75,22 +77,25 @@ public class DragonBall extends JPanel implements Runnable {
         //Player
         player.draw(g2);
 
+        //UI
+        ui.draw(g2);
+        
         g2.dispose();
     }
 
     public void playMusic(int i) {
-        sound.setFile(0);
-        sound.play();
-        sound.loop();
+        music.setFile(0);
+        music.play();
+        music.loop();
     }
 
     public void stopMusic() {
-        sound.stop();
+        music.stop();
     }
 
     public void playSoundEffect(int i) {
-        sound.setFile(i);
-        sound.play();
+        SE.setFile(i);
+        SE.play();
     }
 
     @Override

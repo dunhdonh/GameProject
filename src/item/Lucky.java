@@ -10,6 +10,5 @@ public class Lucky extends AbsItem {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        collision = true;
     }
 }
