@@ -22,13 +22,15 @@ public class DragonBall extends JPanel implements Runnable {
     int FPS = 60;
 
     KeyHandle keyHandle = new KeyHandle();
-    Thread gameThread;
+    
     public AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this, keyHandle);
     TileManager tileManager = new TileManager(this);
     public CollisionCheck collCheck = new CollisionCheck(this);
     public AbsItem item[] = new AbsItem[10];
+    Sound sound = new Sound();
 
+    Thread gameThread;
     // Set player default position
     int playerX = 100;
     int playerY = 100;
@@ -44,6 +46,7 @@ public class DragonBall extends JPanel implements Runnable {
 
     public void setUpGame() {
         aSetter.setItem();
+        playMusic(0);
     }
 
     public void startGameThread() {
@@ -73,6 +76,21 @@ public class DragonBall extends JPanel implements Runnable {
         player.draw(g2);
 
         g2.dispose();
+    }
+
+    public void playMusic(int i) {
+        sound.setFile(0);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void playSoundEffect(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 
     @Override

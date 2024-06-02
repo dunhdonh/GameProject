@@ -25,31 +25,35 @@ public class CollisionCheck {
 
         switch (entity.direction) {
             case "up":
+                entityTopRow = (entityTopY - entity.speed) / gp.tileSize;
                 tileNum1 = gp.tileManager.mapTileNum[entityTopRow][entityLeftCol];
                 tileNum2 = gp.tileManager.mapTileNum[entityTopRow][entityRightCol];
                 if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
-                    entity.y = (entityTopRow + 1) * gp.tileSize - entity.solidArea.y;
-                }
+                    entity.collisionOn = true;
+                                }
                 break;
             case "down":
+                entityBottomRow = (entityBottomY + entity.speed) / gp.tileSize;
                 tileNum1 = gp.tileManager.mapTileNum[entityBottomRow][entityLeftCol];
                 tileNum2 = gp.tileManager.mapTileNum[entityBottomRow][entityRightCol];
                 if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
-                    entity.y = entityBottomRow * gp.tileSize - entity.solidArea.y - entity.solidArea.height - 1;
+                    entity.collisionOn = true;
                 }
                 break;
             case "left":
+                entityLeftCol = (entityLeftX - entity.speed) / gp.tileSize;
                 tileNum1 = gp.tileManager.mapTileNum[entityTopRow][entityLeftCol];
                 tileNum2 = gp.tileManager.mapTileNum[entityBottomRow][entityLeftCol];
                 if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
-                    entity.x = (entityLeftCol + 1) * gp.tileSize - entity.solidArea.x;
+                    entity.collisionOn = true;
                 }
                 break;
             case "right":
+                entityRightCol = (entityRightX + entity.speed) / gp.tileSize;
                 tileNum1 = gp.tileManager.mapTileNum[entityTopRow][entityRightCol];
                 tileNum2 = gp.tileManager.mapTileNum[entityBottomRow][entityRightCol];
                 if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
-                    entity.x = entityRightCol * gp.tileSize - entity.solidArea.x - entity.solidArea.width - 1;
+                    entity.collisionOn = true;
                 }
                 break;
         }
@@ -59,6 +63,7 @@ public class CollisionCheck {
         int index = 999;
         for (int i = 0; i < gp.item.length; i++) {
             if (gp.item[i] != null) {
+
                 entity.solidArea.x = entity.x + entity.solidArea.x;
                 entity.solidArea.y = entity.y + entity.solidArea.y;
                 gp.item[i].solidArea.x = gp.item[i].x + gp.item[i].solidArea.x;
@@ -68,54 +73,52 @@ public class CollisionCheck {
                     case "up":
                         entity.solidArea.y -= entity.speed;
                         if (entity.solidArea.intersects(gp.item[i].solidArea)) {
-                            if (gp.item[i].collisionOn == true){
+                            if (gp.item[i].collision == true) {
                                 entity.collisionOn = true;
-                            }
-                            if (player == true){
+                            } else if (player == true) {
                                 index = i;
                             }
+                            break;
                         }
-                        break;
                     case "down":
                         entity.solidArea.y += entity.speed;
                         if (entity.solidArea.intersects(gp.item[i].solidArea)) {
-                            if (gp.item[i].collisionOn == true){
+                            if (gp.item[i].collision == true) {
                                 entity.collisionOn = true;
-                            }
-                            if (player == true){
+                            } else if (player == true) {
                                 index = i;
                             }
+                            break;
                         }
-                        break;
+                        
                     case "left":
                         entity.solidArea.x -= entity.speed;
                         if (entity.solidArea.intersects(gp.item[i].solidArea)) {
-                            if (gp.item[i].collisionOn == true){
+                            if (gp.item[i].collision == true) {
                                 entity.collisionOn = true;
-                            }
-                            if (player == true){
+                            } else if (player == true) {
                                 index = i;
                             }
+                            break;
                         }
-                        break;
+                        
                     case "right":
                         entity.solidArea.x += entity.speed;
                         if (entity.solidArea.intersects(gp.item[i].solidArea)) {
-                            if (gp.item[i].collisionOn == true){
+                            if (gp.item[i].collision == true) {
                                 entity.collisionOn = true;
-                            }
-                            if (player == true){
+                            } else if (player == true) {
                                 index = i;
                             }
+                            break;
                         }
-                        break;
                 }
-            entity.solidArea.x = entity.solidDefaultX;
-            entity.solidArea.y = entity.solidDefaultY;
-            gp.item[i].solidArea.x = gp.item[i].solidDefaultX;
-            gp.item[i].solidArea.y = gp.item[i].solidDefaultY;
+                entity.solidArea.x = entity.solidDefaultX;
+                entity.solidArea.y = entity.solidDefaultY;
+                gp.item[i].solidArea.x = gp.item[i].solidDefaultX;
+                gp.item[i].solidArea.y = gp.item[i].solidDefaultY;
             }
-            
+
         }
         return index;
     }

@@ -19,11 +19,11 @@ public class Player extends Entity {
         this.keyHandle = keyHandle;
 
         solidArea = new Rectangle();
-        solidArea.x = 8;
+        solidArea.x = 12;
         solidArea.y = 24;
         solidDefaultX = solidArea.x;
         solidDefaultY = solidArea.y;
-        solidArea.width = 32;
+        solidArea.width = 24;
         solidArea.height = 24;
 
         setDefaultValues();
@@ -39,14 +39,14 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
         try {
-            up1 = new ImageIcon("res/player/boy_up_1.png");
-            up2 = new ImageIcon("res/player/boy_up_2.png");
-            down1 = new ImageIcon("res/player/boy_down_1.png");
-            down2 = new ImageIcon("res/player/boy_down_2.png");
-            left1 = new ImageIcon("res/player/boy_left_1.png");
-            left2 = new ImageIcon("res/player/boy_left_2.png");
-            right1 = new ImageIcon("res/player/boy_right_1.png");
-            right2 = new ImageIcon("res/player/boy_right_2.png");
+            up1 = new ImageIcon("src/img/player/boy_up_1.png");
+            up2 = new ImageIcon("src/img/player/boy_up_2.png");
+            down1 = new ImageIcon("src/img/player/boy_down_1.png");
+            down2 = new ImageIcon("src/img/player/boy_down_2.png");
+            left1 = new ImageIcon("src/img/player/boy_left_1.png");
+            left2 = new ImageIcon("src/img/player/boy_left_2.png");
+            right1 = new ImageIcon("src/img/player/boy_right_1.png");
+            right2 = new ImageIcon("src/img/player/boy_right_2.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,23 +56,15 @@ public class Player extends Entity {
         if (keyHandle.up || keyHandle.down || keyHandle.left || keyHandle.right) {
             if (keyHandle.up) {
                 direction = "up";
-                y -= speed;
-                y = Math.max(0, y);
             }
             if (keyHandle.down) {
                 direction = "down";
-                y += speed;
-                y = Math.min(gp.screenHeight - gp.tileSize, y);
             }
             if (keyHandle.left) {
                 direction = "left";
-                x -= speed;
-                x = Math.max(0, x);
             }
             if (keyHandle.right) {
                 direction = "right";
-                x += speed;
-                x = Math.min(gp.screenWidth - gp.tileSize, x);
             }
 
             // check tile collision
@@ -80,9 +72,30 @@ public class Player extends Entity {
             gp.collCheck.checkTile(this);
 
             // check item collision
-            int itemIndex = gp.collCheck.checkItem(this, true);
+            int itemIndex = gp.collCheck.checkItem(this, true); 
             pickUpItem(itemIndex);
 
+            // collitionOn = false -> can move
+            if (collisionOn == false) {
+                switch (direction) {
+                    case "up":
+                        y -= speed;
+                        y = Math.max(0, y);
+                        break;
+                    case "down":
+                        y += speed;
+                        y = Math.min(gp.screenHeight - gp.tileSize, y);
+                        break;
+                    case "left":
+                        x -= speed;
+                        x = Math.max(0, x);
+                        break;
+                    case "right":
+                        x += speed;
+                        x = Math.min(gp.screenWidth - gp.tileSize, x);
+                        break;
+                }
+            }
             spriteCounter++;
             if (spriteCounter > 12) {
                 if (spriteNum == 1) {
@@ -96,7 +109,7 @@ public class Player extends Entity {
     }
 
     public void pickUpItem(int index) {
-        if (index != 999) {
+        if (index != 999)  {
             String itemName = gp.item[index].name;
 
             switch(itemName) {

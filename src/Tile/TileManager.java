@@ -16,21 +16,21 @@ public class TileManager {
     public TileManager(DragonBall gp) {
         this.gp = gp;
         tile = new Tile[5];
-        mapTileNum = new int[12][16];
+        mapTileNum = new int[13][17];
         getTileImage();
         loadMap("map.txt");
     }
 
     public void getTileImage() {
         tile[0] = new Tile();
-        tile[0].img = new ImageIcon("src/img/grass1.png").getImage();
+        tile[0].img = new ImageIcon("src/img/tile/grass1.png").getImage();
         tile[0].collision = true;
 
         tile[1] = new Tile();
-        tile[1].img = new ImageIcon("src/img/road1.png").getImage();
+        tile[1].img = new ImageIcon("src/img/tile/road1.png").getImage();
 
         tile[2] = new Tile();
-        tile[2].img = new ImageIcon("src/img/water.png").getImage();
+        tile[2].img = new ImageIcon("src/img/tile/water.png").getImage();
         tile[2].collision = true;
     }
 

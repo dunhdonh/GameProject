@@ -9,7 +9,7 @@ import java.awt.*;
 public class AbsItem {
     public ImageIcon image;
     public String name;
-    public boolean collisionOn = false;
+    public boolean collision = false;
     public int x, y;
 
     public Rectangle solidArea = new Rectangle(0,0, 48, 48);
