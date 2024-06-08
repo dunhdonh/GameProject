@@ -1,6 +1,6 @@
 package entity;
 
-import game.DragonBall;
+import game.GamePanel;
 import game.KeyHandle;
 
 import java.awt.Graphics2D;
@@ -9,20 +9,22 @@ import java.awt.Rectangle;
 
 public class Player extends Entity {
 
-    DragonBall gp;
     KeyHandle keyHandle;
 
-    int healthPower = 5;
-    int attackPower = 0;
+    public int healthPower = 5;
+    public int attackPower = 0;
+    public int punch = 0;
 
     public int getHealthPower() {
         return healthPower;
     }
+
     public int getAttackPower() {
         return attackPower;
     }
-    public Player(DragonBall gp, KeyHandle keyHandle) {
-        this.gp = gp;
+
+    public Player(GamePanel gp, KeyHandle keyHandle) {
+        super(gp);
         this.keyHandle = keyHandle;
 
         solidArea = new Rectangle();
@@ -39,7 +41,7 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
         this.x = 24;
-        this.y = 5*48;
+        this.y = 5 * 48;
         speed = 5;
         direction = "down";
     }
@@ -60,6 +62,11 @@ public class Player extends Entity {
     }
 
     public void update() {
+        if (attackPower >= 10) {
+            punch++;
+            attackPower -= 10;
+        }
+
         if (keyHandle.up || keyHandle.down || keyHandle.left || keyHandle.right) {
             if (keyHandle.up) {
                 direction = "up";
@@ -79,8 +86,13 @@ public class Player extends Entity {
             gp.collCheck.checkTile(this);
 
             // check item collision
-            int itemIndex = gp.collCheck.checkItem(this, true); 
+            int itemIndex = gp.collCheck.checkItem(this, true);
             pickUpItem(itemIndex);
+
+            int NPCindex = gp.collCheck.checkEntity(this, gp.NPC);
+            interactieWithNPC(NPCindex);
+
+            gp.collCheck.checkEntity(this, gp.boss);
 
             // collitionOn = false -> can move
             if (collisionOn == false) {
@@ -99,7 +111,7 @@ public class Player extends Entity {
                         break;
                     case "right":
                         x += speed;
-                        x = Math.min(gp.screenWidth - gp.tileSize, x);
+                        x = Math.max(0, x);
                         break;
                 }
             }
@@ -116,27 +128,66 @@ public class Player extends Entity {
     }
 
     public void pickUpItem(int index) {
-        if (index != 999)  {
+        if (index != 999) {
             String itemName = gp.item[index].name;
 
-            switch(itemName) {
+            switch (itemName) {
                 case "Lucky":
-                gp.playSoundEffect(2);
-                if(healthPower < 5) {
-                    healthPower++;
-                    System.out.println("Health Power: " + healthPower);
-                }
+                    gp.playSoundEffect(2);
+                    if (healthPower < 5) {
+                        healthPower++;
+                        System.out.println("Health Power: " + healthPower);
+                    }
                     break;
                 case "Coin":
-                gp.playSoundEffect(1);
-                if (attackPower < 10) {
-                    attackPower++;
-                    System.out.println("Attack Power: " + attackPower);
-                }
+                    gp.playSoundEffect(1);
+                    if (attackPower < 10) {
+                        attackPower += 5;
+                        System.out.println("Attack Power: " + attackPower);
+                    }
                     break;
             }
             gp.item[index] = null;
         }
+    }
+
+    public void interactieWithNPC(int index) {
+        if (index != 999) {
+            healthPower--;
+            gp.NPC[index].healthPower--;
+            System.out.println("Health Power: " + healthPower);
+            if (gp.NPC[index].healthPower <= 0) {
+                gp.NPC[index] = null;
+            }
+            if (healthPower <= 0) {
+                gp.state = gp.gameOver;
+            }
+        }
+    }
+
+    boolean distanceToAttack() {
+        if ((x <= gp.boss[0].x + 96 + gp.tileSize) && (x >= gp.boss[0].x - gp.tileSize) && (y <= gp.boss[0].y + gp.tileSize + 96)
+                && y >= gp.boss[0].y - gp.tileSize) {
+            return true;
+        }
+        return false;
+    }
+
+    public void attackBoss() {
+        if (punch > 0 && distanceToAttack()) {
+            gp.boss[0].healthPower--;
+            punch--;
+            System.out.println("Boss Health: " + gp.boss[0].healthPower);
+            if (gp.boss[0].healthPower <= 0) {
+                gp.boss[0] = null;
+                gp.state = gp.passRound;
+            }
+        } else
+        if (punch == 0)
+            System.out.println("You don't have enough power to attack the boss!");
+            else if (!distanceToAttack())
+            System.out.println("You are not close enough to attack the boss!");
+
     }
 
     public void draw(Graphics2D g) {

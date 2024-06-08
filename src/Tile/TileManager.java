@@ -6,14 +6,14 @@ import java.io.InputStream;
 
 import javax.swing.*;
 
-import game.DragonBall;
+import game.GamePanel;
 
 public class TileManager {
-    DragonBall gp;
+    GamePanel gp;
     public Tile[] tile;
     public int mapTileNum[][];
 
-    public TileManager(DragonBall gp) {
+    public TileManager(GamePanel gp) {
         this.gp = gp;
         tile = new Tile[5];
         mapTileNum = new int[13][17];
