@@ -40,4 +40,19 @@ public class Boss extends Entity{
     public void draw(Graphics2D g){
         g.drawImage(img.getImage(), x, y, gp.tileSize*2, gp.tileSize*2, null);
     }
+
+    int child = 2;
+    public void update(){
+        actionLockCounter++;
+        if (actionLockCounter > 700) {
+            for (int i = 0; i <= 15; i++)
+            if (gp.NPC[i]==null){
+                gp.aSetter.setNPC(i);
+                child++;
+                System.out.println("Set NPC: " + i);
+                actionLockCounter = 0;
+                break;
+            }
+        }
+    }
 }

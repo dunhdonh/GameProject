@@ -37,12 +37,13 @@ public class Entity {
         collisionOn = false;
         gp.collCheck.checkTile(this);
         gp.collCheck.checkPlayer(this);
+        gp.collCheck.checkEntity(this, gp.boss);
         // collitionOn = false -> can move
         if (collisionOn == false) {
             switch (direction) {
                 case "up":
                     y -= speed;
-                    y = Math.max(0, y);
+                    y = Math.max(-24, y);
                     break;
                 case "down":
                     y += speed;

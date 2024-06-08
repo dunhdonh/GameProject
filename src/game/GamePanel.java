@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileManager = new TileManager(this);
     public CollisionCheck collCheck = new CollisionCheck(this);
     public AbsItem item[] = new AbsItem[10];
-    public NPC_Monster NPC[] = new NPC_Monster[10];
+    public NPC_Monster NPC[] = new NPC_Monster[16];
     public Boss[] boss = new Boss[1];
 
     // Game State
@@ -62,9 +62,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setUpGame() {
+        aSetter.setBoss();
         aSetter.setItem();
         aSetter.setNPC(0);
-        aSetter.setBoss();
         playMusic(0);
         state = playStage;
     }
@@ -85,6 +85,11 @@ public class GamePanel extends JPanel implements Runnable {
                 if (NPC[i] != null) {
                     NPC[i].update();
                 }
+            }
+
+            //boss
+            if (boss[0] != null) {
+                boss[0].update();
             }
 
         }

@@ -16,12 +16,12 @@ public class NPC_Monster extends Entity {
 
     public void setDefaultValues() {
         solidArea = new Rectangle();
-        solidArea.x = 0;
-        solidArea.y = 0;
+        solidArea.x = 8;
+        solidArea.y = 24;
         solidDefaultX = solidArea.x;
         solidDefaultY = solidArea.y;
-        solidArea.width = 48;
-        solidArea.height = 48 + 24;
+        solidArea.width = 32;
+        solidArea.height = 24;
         speed = 1;
         direction = "down";
         getImage();

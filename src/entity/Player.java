@@ -153,7 +153,7 @@ public class Player extends Entity {
 
     public void interactieWithNPC(int index) {
         if (index != 999) {
-            healthPower--;
+            healthPower -= gp.NPC[index].healthPower;
             gp.NPC[index].healthPower--;
             System.out.println("Health Power: " + healthPower);
             if (gp.NPC[index].healthPower <= 0) {

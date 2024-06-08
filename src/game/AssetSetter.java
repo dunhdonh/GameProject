@@ -32,9 +32,9 @@ public class AssetSetter {
 
     public void setNPC(int i){
         gp.NPC[i] = new NPC_Monster(gp);
-        gp.NPC[i].x = 72;
-        gp.NPC[i].y = 96;
-        gp.NPC[i].healthPower = 3;
+        gp.NPC[i].x = gp.boss[0].x + 24;
+        gp.NPC[i].y = gp.boss[0].y + 72;
+        gp.NPC[i].healthPower = 1;
     }
 
     public void setBoss(){
