@@ -5,6 +5,8 @@ import entity.Player;
 import entity.NPC_Monster;
 import entity.Boss;
 import item.AbsItem;
+import java.util.Random;
+
 
 import java.awt.*;
 
@@ -21,6 +23,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol; // 768px
     public final int screenHeight = tileSize * maxScreenRow;// 576px
 
+    int randomCounter = 0;
+    public int coinCounter = 0;
+    public int powerUpCounter = 0;
+
     int FPS = 60;
 
     // KeyHandle
@@ -31,7 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyHandle);
     TileManager tileManager = new TileManager(this);
     public CollisionCheck collCheck = new CollisionCheck(this);
-    public AbsItem item[] = new AbsItem[10];
+    public AbsItem item[] = new AbsItem[26];
+
     public NPC_Monster NPC[] = new NPC_Monster[16];
     public Boss[] boss = new Boss[1];
 
@@ -63,7 +70,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setUpGame() {
         aSetter.setBoss();
-        aSetter.setItem();
         aSetter.setNPC(0);
         playMusic(0);
         state = playStage;
@@ -75,25 +81,52 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (state == playStage) {
+        if (state == playStage || state == passRound) {
+            randomCounter++;
 
-            //player 
+            // player
             player.update();
 
-            //npc
-            for (int i = 0; i < NPC.length; i++ ) {
+            // npc
+            for (int i = 0; i < NPC.length; i++) {
                 if (NPC[i] != null) {
                     NPC[i].update();
                 }
             }
 
-            //boss
+            // boss
             if (boss[0] != null) {
                 boss[0].update();
             }
 
-        }
+            if (randomCounter >= 300) {
 
+                int random = new Random().nextInt(100);
+                if (random < 75) {
+                    for (int i = 0; i <= 20; i++) {
+                        if ((item[i] == null) && (coinCounter <= 20)) {
+                            aSetter.setCoin(i);
+                            System.out.println("Set Coin: " + (i + 1));
+                            coinCounter++;
+                            System.out.println("Coin on screen: " + coinCounter);
+                            randomCounter = 0;
+                            break;
+                        }
+                    }
+                } else {
+                    for (int i = 21; i <= 25; i++) {
+                        if ((item[i] == null) && (powerUpCounter <= 5)) {
+                            aSetter.setPowerUp(i);
+                            System.out.println("Set Power Up: " + (i - 20));
+                            powerUpCounter++;
+                            System.out.println("Power Up on screen: " + powerUpCounter);
+                            randomCounter = 0;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         if (state == pause) {
         }
@@ -109,16 +142,16 @@ public class GamePanel extends JPanel implements Runnable {
         // Background
         tileManager.drawTile(g2);
 
-        // Item
+        // Boss
+        if (boss[0] != null) {
+            boss[0].draw(g2);
+        }
+
+        // Items
         for (int i = 0; i < item.length; i++) {
             if (item[i] != null) {
                 item[i].draw(g2, this);
             }
-        }
-
-        // Boss
-        if (boss[0] != null) {
-            boss[0].draw(g2);
         }
 
         // Player

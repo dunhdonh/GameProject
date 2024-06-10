@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Set;
+import java.util.HashSet;
 import entity.NPC_Monster;
 import entity.Boss;
 import item.Coin;
@@ -7,34 +9,44 @@ import item.Lucky;
 
 public class AssetSetter {
     GamePanel gp;
-    
+    public Set<Integer> set = new HashSet<Integer>();
     public AssetSetter (GamePanel gp){
         this.gp = gp;
     }
+    int k;
 
-    public void setItem(){
-        gp.item[0] = new Coin();
-        gp.item[0].x = 10 * gp.tileSize + gp.tileSize/4;
-        gp.item[0].y = 5 * gp.tileSize + gp.tileSize/4;
+    public void setCoin(int i){
 
-        gp.item[1] = new Coin();
-        gp.item[1].x = 10 * gp.tileSize + gp.tileSize/4;
-        gp.item[1].y = 6 * gp.tileSize + gp.tileSize/4;
+        do{
+            k = gp.tileManager.getRandomReachableIndex();
+        }while(set.contains(k));
+        set.add(k);
 
-        gp.item[2] = new Coin();
-        gp.item[2].x = 10 * gp.tileSize + gp.tileSize/4;
-        gp.item[2].y = 7 * gp.tileSize + gp.tileSize/4;
+        gp.item[i] = new Coin();
+        gp.item[i].x = k%16 * gp.tileSize + gp.tileSize/4;
+        gp.item[i].y = k/16 * gp.tileSize + gp.tileSize/4;
+        gp.item[i].z = k;
 
-        gp.item[3] = new Lucky();
-        gp.item[3].x = 6 * gp.tileSize + gp.tileSize/4;
-        gp.item[3].y = 6 * gp.tileSize + gp.tileSize/4;
+    }
+
+    public void setPowerUp(int i){
+
+        do{
+            k = gp.tileManager.getRandomReachableIndex();
+        }while(set.contains(k));
+        set.add(k);
+
+        gp.item[i] = new Lucky();
+        gp.item[i].x = k%16 * gp.tileSize + gp.tileSize/4;
+        gp.item[i].y = k/16 * gp.tileSize + gp.tileSize/4;
+        gp.item[i].z = k;
     }
 
     public void setNPC(int i){
         gp.NPC[i] = new NPC_Monster(gp);
         gp.NPC[i].x = gp.boss[0].x + 24;
-        gp.NPC[i].y = gp.boss[0].y + 72;
-        gp.NPC[i].healthPower = 1;
+        gp.NPC[i].y = gp.boss[0].y + 84;
+        gp.NPC[i].healthPower = 3;
     }
 
     public void setBoss(){

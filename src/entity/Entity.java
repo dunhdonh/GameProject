@@ -14,9 +14,13 @@ public class Entity {
     public ImageIcon img = new ImageIcon();
     public ImageIcon up1, up2, down1, down2, left1, left2, right1, right2;
     public String direction;
+    public int healthPower;
+
 
     public int spriteCounter = 0;
     public int spriteNum = 1;
+    public boolean invincible = false;
+    public int invincibleCounter = 0;
 
     public Rectangle solidArea;
 
@@ -36,8 +40,16 @@ public class Entity {
         setAction();
         collisionOn = false;
         gp.collCheck.checkTile(this);
-        gp.collCheck.checkPlayer(this);
+        boolean contactPlayer = gp.collCheck.checkPlayer(this);
         gp.collCheck.checkEntity(this, gp.boss);
+        gp.collCheck.checkEntity(this, gp.NPC);
+
+        if (contactPlayer == true && invincible == false ) { // nếu monster chạm vào player thì có thể tấn công
+            gp.player.healthPower -= 1;
+            System.out.println("Health Power: " + gp.player.healthPower);
+            gp.player.invincible = true;
+            gp.player.invincibleCounter = 0;
+        }
         // collitionOn = false -> can move
         if (collisionOn == false) {
             switch (direction) {

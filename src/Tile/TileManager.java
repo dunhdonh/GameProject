@@ -5,11 +5,13 @@ import java.io.InputStreamReader;
 import java.io.InputStream;
 
 import javax.swing.*;
+import java.util.Random;
 
 import game.GamePanel;
 
 public class TileManager {
     GamePanel gp;
+    Random rd = new Random();
     public Tile[] tile;
     public int mapTileNum[][];
 
@@ -23,15 +25,20 @@ public class TileManager {
 
     public void getTileImage() {
         tile[0] = new Tile();
-        tile[0].img = new ImageIcon("src/img/tile/grass1.png").getImage();
+        tile[0].img = new ImageIcon("src/img/tile/block.png").getImage();
         tile[0].collision = true;
 
         tile[1] = new Tile();
-        tile[1].img = new ImageIcon("src/img/tile/road1.png").getImage();
+        tile[1].img = new ImageIcon("src/img/tile/road.png").getImage();
 
+    
         tile[2] = new Tile();
         tile[2].img = new ImageIcon("src/img/tile/water.png").getImage();
         tile[2].collision = true;
+
+        tile[3] = new Tile();
+        tile[3].img = new ImageIcon("src/img/tile/road.png").getImage();
+
     }
 
     public void loadMap(String filepath) {
@@ -74,6 +81,20 @@ public class TileManager {
                 y += 48;
             }
         }
+    }
+
+    public int getRandomReachableIndex(){
+        int z = rd.nextInt(191);
+        int z_x = z%16;
+        int z_y = (z-z_x)/16;
+        boolean condition = tile [mapTileNum[z_y][z_x]].collision;
+        while (condition||(mapTileNum[z_y][z_x]==3)){
+            z = rd.nextInt(191);
+            z_x = z%16;
+            z_y = (z-z_x)/16;
+            condition = tile [mapTileNum[z_y][z_x]].collision;
+        }
+        return z;
     }
 }
 

@@ -7,7 +7,6 @@ import java.util.Random;
 import game.GamePanel;
 
 public class NPC_Monster extends Entity {
-     public int healthPower;
     public NPC_Monster(GamePanel gp) {
         super(gp);
         setDefaultValues();
@@ -16,8 +15,8 @@ public class NPC_Monster extends Entity {
 
     public void setDefaultValues() {
         solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 24;
+        solidArea.x = 6;
+        solidArea.y = 12;
         solidDefaultX = solidArea.x;
         solidDefaultY = solidArea.y;
         solidArea.width = 32;
@@ -30,14 +29,14 @@ public class NPC_Monster extends Entity {
 
     public void getImage() {
         try {
-            up1 = new ImageIcon("src/img/NPC/mon1.png");
-            up2 = new ImageIcon("src/img/NPC/mon1.png");
-            down1 = new ImageIcon("src/img/NPC/mon1.png");
-            down2 = new ImageIcon("src/img/NPC/mon1.png");
-            left1 = new ImageIcon("src/img/NPC/mon1.png");
-            left2 = new ImageIcon("src/img/NPC/mon1.png");
-            right1 = new ImageIcon("src/img/NPC/mon1.png");
-            right2 = new ImageIcon("src/img/NPC/mon1.png");
+            up1 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
+            up2 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
+            down1 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
+            down2 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
+            left1 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
+            left2 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
+            right1 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
+            right2 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
         } catch (Exception e) {
             e.printStackTrace();
         }

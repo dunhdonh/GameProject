@@ -39,7 +39,12 @@ public class UI {
         int y = gp.screenHeight / 2;
         int x = getXCentered("YOU LOSE", arial_40);
         g.drawString("YOU LOSE", x, y);
+    }
 
+    public void drawStart(){
+        int y = gp.screenHeight / 2;
+        int x = getXCentered("PRESS SPACE TO START", arial_40);
+        g.drawString("PRESS SPACE TO START", x, y);
     }
     public int getXCentered(String str, Font font) {
         FontMetrics fm = g.getFontMetrics(font);

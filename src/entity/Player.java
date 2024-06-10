@@ -10,7 +10,6 @@ import java.awt.Rectangle;
 public class Player extends Entity {
 
     KeyHandle keyHandle;
-
     public int healthPower = 5;
     public int attackPower = 0;
     public int punch = 0;
@@ -125,6 +124,14 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+
+        if (invincible == true) {
+            invincibleCounter++;
+            if (invincibleCounter > 60) {
+                invincibleCounter = 0;
+                invincible = false;
+            }
+        }
     }
 
     public void pickUpItem(int index) {
@@ -134,18 +141,21 @@ public class Player extends Entity {
             switch (itemName) {
                 case "Lucky":
                     gp.playSoundEffect(2);
+                    gp.powerUpCounter--;
                     if (healthPower < 5) {
                         healthPower++;
                         System.out.println("Health Power: " + healthPower);
+                        gp.aSetter.set.remove(gp.item[index].z);
                     }
                     break;
                 case "Coin":
                     gp.playSoundEffect(1);
+                    gp.coinCounter--;
                     if (attackPower < 10) {
                         attackPower += 5;
                         System.out.println("Attack Power: " + attackPower);
+                        gp.aSetter.set.remove(gp.item[index].z);
                     }
-                    break;
             }
             gp.item[index] = null;
         }
@@ -153,20 +163,27 @@ public class Player extends Entity {
 
     public void interactieWithNPC(int index) {
         if (index != 999) {
-            healthPower -= gp.NPC[index].healthPower;
-            gp.NPC[index].healthPower--;
-            System.out.println("Health Power: " + healthPower);
-            if (gp.NPC[index].healthPower <= 0) {
-                gp.NPC[index] = null;
+            if (invincible == false) {
+
+                healthPower --;
+                gp.NPC[index].healthPower--;
+                if (gp.NPC[index].healthPower <= 0) {
+                    gp.NPC[index] = null;
+                }
+                if (healthPower <= 0) {
+                    gp.state = gp.gameOver;
+                }
+                System.out.println("Health Power: " + healthPower);
+                invincible = true;
+                invincibleCounter = 0;
             }
-            if (healthPower <= 0) {
-                gp.state = gp.gameOver;
-            }
+
         }
     }
 
     boolean distanceToAttack() {
-        if ((x <= gp.boss[0].x + 96 + gp.tileSize) && (x >= gp.boss[0].x - gp.tileSize) && (y <= gp.boss[0].y + gp.tileSize + 96)
+        if ((x <= gp.boss[0].x + 96 + gp.tileSize) && (x >= gp.boss[0].x - gp.tileSize)
+                && (y <= gp.boss[0].y + gp.tileSize + 96)
                 && y >= gp.boss[0].y - gp.tileSize) {
             return true;
         }
@@ -182,10 +199,9 @@ public class Player extends Entity {
                 gp.boss[0] = null;
                 gp.state = gp.passRound;
             }
-        } else
-        if (punch == 0)
+        } else if (punch == 0)
             System.out.println("You don't have enough power to attack the boss!");
-            else if (!distanceToAttack())
+        else if (!distanceToAttack())
             System.out.println("You are not close enough to attack the boss!");
 
     }
