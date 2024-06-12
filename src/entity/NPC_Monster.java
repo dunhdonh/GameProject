@@ -7,13 +7,13 @@ import java.util.Random;
 import game.GamePanel;
 
 public class NPC_Monster extends Entity {
-    public NPC_Monster(GamePanel gp) {
+    public NPC_Monster(GamePanel gp, int round) {
         super(gp);
-        setDefaultValues();
+        setDefaultValues(round);
         name = "Monster";
     }
 
-    public void setDefaultValues() {
+    public void setDefaultValues(int round) {
         solidArea = new Rectangle();
         solidArea.x = 6;
         solidArea.y = 12;
@@ -23,20 +23,26 @@ public class NPC_Monster extends Entity {
         solidArea.height = 24;
         speed = 1;
         direction = "down";
-        getImage();
+        getImage(round);
         collisionOn = true;
     }
 
-    public void getImage() {
+    public void getImage(int round) {
         try {
-            up1 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
-            up2 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
-            down1 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
-            down2 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
-            left1 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
-            left2 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
-            right1 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
-            right2 = new ImageIcon("src/img/NPC/Mini-boss-02.png");
+            switch (round){
+                case 1:
+                    img = new ImageIcon("src/img/NPC/mon1.png");
+                    break;
+                case 2:
+                    img = new ImageIcon("src/img/NPC/mon2.png");
+                    break;
+                case 3:
+                    img = new ImageIcon("src/img/NPC/mon3.png");
+                    break;
+                case 4:
+                    img = new ImageIcon("src/img/NPC/mon4.png");
+                    break;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,8 +77,9 @@ public class NPC_Monster extends Entity {
         gp.collCheck.checkEntity(this, gp.boss);
         //gp.collCheck.checkEntity(this, gp.NPC);
 
-        if (contactPlayer == true && invincible == false ) { // nếu monster chạm vào player thì có thể tấn công
+        if (contactPlayer == true && gp.player.invincible == false ) { // nếu monster chạm vào player thì có thể tấn công
             gp.player.healthPower -= 1;
+            healthPower -= 1;
             System.out.println("Health Power: " + gp.player.healthPower);
             gp.player.invincible = true;
             gp.player.invincibleCounter = 0;

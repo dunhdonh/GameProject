@@ -4,7 +4,7 @@ import javax.swing.*;
 public class App {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Game");
-        ImageIcon logo = new ImageIcon("src/img/player/boy_down_1.png");
+        ImageIcon logo = new ImageIcon("src/img/player/down1.png");
         frame.setIconImage(logo.getImage());
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);

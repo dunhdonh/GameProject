@@ -19,8 +19,25 @@ public class TileManager {
         this.gp = gp;
         tile = new Tile[5];
         mapTileNum = new int[13][17];
-        getTileImage();
-        loadMap("map.txt");
+        getTileImage(); 
+        setMap(gp.round);
+    }
+
+    public void setMap(int roundNumber){
+        switch (roundNumber){
+            case 1:
+                loadMap("map1.txt");
+                break;
+            case 2:
+                loadMap("map2.txt");
+                break;
+            case 3:
+                loadMap("map3.txt");
+                break;
+            case 4:
+                loadMap("map4.txt");
+                break;
+        }
     }
 
     public void getTileImage() {

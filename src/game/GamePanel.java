@@ -48,6 +48,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseStage = 2;
     public final int gameOver = 3;
     public final int passRound = 4;
+    public final int Win = 5;
+    public int round = 1;
 
     // UI&Sound
     public UI ui = new UI(this);
@@ -55,10 +57,6 @@ public class GamePanel extends JPanel implements Runnable {
     public Sound SE = new Sound();
 
     Thread gameThread;
-    // Set player default position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 5;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -69,11 +67,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setUpGame() {
-        aSetter.setBoss("src/img/NPC/boss.png");
-        aSetter.setNPC(0);
-        aSetter.setDoor();
+
         playMusic(0);
         state = startStage;
+        aSetter.setRound(round);
+
     }
 
     public void startGameThread() {
@@ -84,9 +82,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        if (state == playStage || state == passRound) {
+        if (state == playStage) {
             randomCounter++;
 
+            // 
+            aSetter.update();
             // player
             player.update();
 
@@ -130,7 +130,11 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
         } else if (state == pauseStage) {
-        } else if (state == gameOver) {
+        } else if (state == passRound) {
+            state = playStage;
+            aSetter.setRound(round);
+        } else if (state == Win) {
+        }else if (state == gameOver) {
         }
 
     }
@@ -145,16 +149,17 @@ public class GamePanel extends JPanel implements Runnable {
             // Background
             tileManager.drawTile(g2);
 
-            // Boss
-            if (boss[0] != null) {
-                boss[0].draw(g2);
-            }
 
             // Items
             for (int i = 0; i < item.length; i++) {
                 if (item[i] != null) {
                     item[i].draw(g2, this);
                 }
+            }
+
+            // Boss
+            if (boss[0] != null) {
+                boss[0].draw(g2);
             }
 
             // Player

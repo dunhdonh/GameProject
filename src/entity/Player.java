@@ -45,22 +45,20 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        this.x = 24;
-        this.y = 5 * 48;
         speed = 5;
         direction = "down";
     }
 
     public void getPlayerImage() {
         try {
-            up1 = new ImageIcon("src/img/player/boy_up_1.png");
-            up2 = new ImageIcon("src/img/player/boy_up_2.png");
-            down1 = new ImageIcon("src/img/player/boy_down_1.png");
-            down2 = new ImageIcon("src/img/player/boy_down_2.png");
-            left1 = new ImageIcon("src/img/player/boy_left_1.png");
-            left2 = new ImageIcon("src/img/player/boy_left_2.png");
-            right1 = new ImageIcon("src/img/player/boy_right_1.png");
-            right2 = new ImageIcon("src/img/player/boy_right_2.png");
+            up1 = new ImageIcon("src/img/player/up1.png");
+            up2 = new ImageIcon("src/img/player/up2.png");
+            down1 = new ImageIcon("src/img/player/down1.png");
+            down2 = new ImageIcon("src/img/player/down2.png");
+            left1 = new ImageIcon("src/img/player/left1.png");
+            left2 = new ImageIcon("src/img/player/left2.png");
+            right1 = new ImageIcon("src/img/player/right1.png");
+            right2 = new ImageIcon("src/img/player/right2.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,7 +151,7 @@ public class Player extends Entity {
             String itemName = gp.item[index].name;
 
             switch (itemName) {
-                case "Lucky":
+                case "GaRan":
                     gp.playSoundEffect(2);
                     gp.powerUpCounter--;
                     if (healthPower < 4) {
@@ -187,6 +185,12 @@ public class Player extends Entity {
                 if (hasKey) {
                     gp.playSoundEffect(3);
                     gp.state = gp.passRound;
+                    if (gp.round <= 3) {
+                        gp.round++;
+                    }
+                    else if (gp.round == 4) {
+                        gp.state = gp.Win;
+                    }
                 }
                     break;
             }

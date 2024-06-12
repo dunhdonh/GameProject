@@ -11,8 +11,9 @@ public class UI {
 
     ImageIcon hp1, hp2, hp3, hp4, hp0;
     ImageIcon mp1, mp2, mp3, mp4, mp0;
-        
-    
+
+    ImageIcon pauseIcon = new ImageIcon("src/img/panel/pause.png");
+
     public UI(GamePanel gp) {
         this.gp = gp;
         arial_40 = new Font("Arial", Font.PLAIN, 20);
@@ -35,7 +36,6 @@ public class UI {
     public void draw(Graphics2D g) {
         this.g = g;
         g.setColor(Color.WHITE);
-        g.setFont(arial_40);
 
         if (gp.state == gp.startStage) {
             drawStart();
@@ -55,74 +55,88 @@ public class UI {
         }
     }
 
+    // start screen
     public void drawStart() {
 
-        
+        g.drawImage(gp.player.down1.getImage(), gp.screenWidth / 2 - 100, gp.screenHeight / 2 - 150, 200, 200, null);
+        g.setFont(g.getFont().deriveFont(Font.PLAIN, 25F));
         int y = gp.screenHeight * 2 / 3;
-        int x = getXCentered("Press Enter to Start", arial_40);
+        int x = getXCentered("Press Enter to Start");
         g.drawString("Press Enter to Start", x, y);
-        x = getXCentered("Press Q to Quit", arial_40);
+        x = getXCentered("Press Q to Quit");
         g.drawString("Press Q to Quit", x, (y + 40));
     }
 
     // pause screen
     public void drawPause() {
-        int y = gp.screenHeight / 2;
-        int x = getXCentered("PAUSE", arial_40);
-        g.drawString("PAUSE", x, y);
+        g.drawImage(pauseIcon.getImage(), gp.screenWidth / 2 - 100, gp.screenHeight / 2 - 46, 200, 92, null);
     }
 
     // game over screen
     public void drawGameOver() {
-        int y = gp.screenHeight / 2;
-        int x = getXCentered("YOU LOSE", arial_40);
-        g.drawString("YOU LOSE", x, y);
+        int y = gp.screenHeight / 3;
+        int x = getXCentered("GAME OVER");
+        g.drawString("GAME OVER", x, y);
+
+        y = gp.screenHeight * 2 / 3;
+        x = getXCentered("Press Enter to Retry");
+        g.drawString("Press Enter to Retry", x, y);
+        x = getXCentered("Press Q to Quit");
+        g.drawString("Press Q to Quit", x, (y + 40));
+
+
     }
 
-    public void drawPassRound(){
+    // passRound screen
+    public void drawPassRound() {
         int y = gp.screenHeight / 2;
-        int x = getXCentered("NEXT ROUND", arial_40);
+        int x = getXCentered("NEXT ROUND");
         g.drawString("NEXT ROUND", x, y);
     }
-    public int getXCentered(String str, Font font) {
-        FontMetrics fm = g.getFontMetrics(font);
-        int length = (int) fm.getStringBounds(str, g).getWidth();
+
+    public void drawWin(){
+        int y = gp.screenHeight / 2;
+        int x = getXCentered("YOU WIN");
+        g.drawString("YOU WIN", x, y);
+
+        y = gp.screenHeight * 2 / 3;
+        x = getXCentered("Press Enter to Replay");
+        g.drawString("Press Enter to Replay", x, y);
+        x = getXCentered("Press Q to Quit");
+        g.drawString("Press Q to Quit", x, (y + 40));
+        
+    }
+
+    public int getXCentered(String str) {
+        int length = (int) g.getFontMetrics().getStringBounds(str, g).getWidth();
         return gp.screenWidth / 2 - length / 2;
     }
 
-    public void drawHP(){
-        if(gp.player.getHealthPower() == 4){
+    public void drawHP() {
+        if (gp.player.getHealthPower() == 4) {
             g.drawImage(hp4.getImage(), 10, 10, 160, 29, null);
-        }
-        else if(gp.player.getHealthPower() == 3){
+        } else if (gp.player.getHealthPower() == 3) {
             g.drawImage(hp3.getImage(), 10, 10, 160, 29, null);
-        }
-        else if(gp.player.getHealthPower() == 2){
+        } else if (gp.player.getHealthPower() == 2) {
             g.drawImage(hp2.getImage(), 10, 10, 160, 29, null);
-        }
-        else if(gp.player.getHealthPower() == 1){
+        } else if (gp.player.getHealthPower() == 1) {
             g.drawImage(hp1.getImage(), 10, 10, 160, 29, null);
-        }
-        else if(gp.player.getHealthPower() == 0){
+        } else if (gp.player.getHealthPower() == 0) {
             g.drawImage(hp0.getImage(), 10, 10, 160, 29, null);
         }
     }
 
-    public void drawMP(){
-        if(gp.player.getManaPower() == 4){
-            g.drawImage(mp4.getImage(), 10, 40,  160, 29, null);
-        }
-        else if(gp.player.getManaPower() == 3){
+    public void drawMP() {
+        if (gp.player.getManaPower() == 4) {
+            g.drawImage(mp4.getImage(), 10, 40, 160, 29, null);
+        } else if (gp.player.getManaPower() == 3) {
             g.drawImage(mp3.getImage(), 10, 40, 160, 29, null);
-        }
-        else if(gp.player.getManaPower() == 2){
+        } else if (gp.player.getManaPower() == 2) {
             g.drawImage(mp2.getImage(), 10, 40, 160, 29, null);
-        }
-        else if(gp.player.getManaPower() == 1){
+        } else if (gp.player.getManaPower() == 1) {
             g.drawImage(mp1.getImage(), 10, 40, 160, 29, null);
-        }
-        else if(gp.player.getManaPower() == 0){
-            g.drawImage(mp0.getImage(), 10, 40, 160, 29,null);
+        } else if (gp.player.getManaPower() == 0) {
+            g.drawImage(mp0.getImage(), 10, 40, 160, 29, null);
         }
     }
 }
