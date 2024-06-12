@@ -11,10 +11,11 @@ public class App {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         GamePanel gp = new GamePanel();
+
         frame.add(gp);
         frame.pack();
-
         frame.setVisible(true);
+        
         gp.setUpGame();
         gp.startGameThread();
     }

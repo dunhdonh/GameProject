@@ -6,6 +6,8 @@ import entity.NPC_Monster;
 import entity.Boss;
 import item.Coin;
 import item.Lucky;
+import item.Key;
+import item.Door;
 
 public class AssetSetter {
     GamePanel gp;
@@ -49,7 +51,19 @@ public class AssetSetter {
         gp.NPC[i].healthPower = 3;
     }
 
-    public void setBoss(){
-        gp.boss[0] = new Boss(gp);
+    public void setBoss(String fileName){
+        gp.boss[0] = new Boss(gp, fileName);
+
+        gp.item[25] = new Key();
+        gp.item[25].x = 9 * gp.tileSize + gp.tileSize/4;
+        gp.item[25].y = 1 * gp.tileSize + gp.tileSize/4;
+        gp.item[25].z = 9 + 1 * 16;
+    }
+
+    public void setDoor(){
+        gp.item[26] = new Door();
+        gp.item[26].x = 3 * gp.tileSize;
+        gp.item[26].y = 0;
+        gp.item[26].z = 3 + 0 * 16;
     }
 }

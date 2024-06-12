@@ -86,10 +86,10 @@ public class CollisionCheck {
                 if (entity.solidArea.intersects(gp.item[i].solidArea)) {
                     if (gp.item[i].collision == true) {
                         entity.collisionOn = true;
-                    } else if (player == true) {
+                    }
+                     if (player == true) {
                         index = i;
                     }
-                    break;
                 }
                 entity.solidArea.x = entity.solidDefaultX;
                 entity.solidArea.y = entity.solidDefaultY;

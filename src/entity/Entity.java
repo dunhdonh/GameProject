@@ -6,6 +6,7 @@ import game.GamePanel;
 
 import java.awt.*;
 
+
 public class Entity {
     GamePanel gp;
     public int x, y;
@@ -28,62 +29,24 @@ public class Entity {
     public boolean collisionOn = false;
     public int actionLockCounter = 0;
 
+    Font arial_40;
+
+
     public Entity(GamePanel gp) {
         this.gp = gp;
+        arial_40 = new Font("Arial", Font.PLAIN, 18);
+        
+
     }
 
     public void setAction() {
 
     }
 
-    public void update() {
-        setAction();
-        collisionOn = false;
-        gp.collCheck.checkTile(this);
-        boolean contactPlayer = gp.collCheck.checkPlayer(this);
-        gp.collCheck.checkEntity(this, gp.boss);
-        gp.collCheck.checkEntity(this, gp.NPC);
-
-        if (contactPlayer == true && invincible == false ) { // nếu monster chạm vào player thì có thể tấn công
-            gp.player.healthPower -= 1;
-            System.out.println("Health Power: " + gp.player.healthPower);
-            gp.player.invincible = true;
-            gp.player.invincibleCounter = 0;
-        }
-        // collitionOn = false -> can move
-        if (collisionOn == false) {
-            switch (direction) {
-                case "up":
-                    y -= speed;
-                    y = Math.max(-24, y);
-                    break;
-                case "down":
-                    y += speed;
-                    y = Math.min(gp.screenHeight - gp.tileSize, y);
-                    break;
-                case "left":
-                    x -= speed;
-                    x = Math.max(0, x);
-                    break;
-                case "right":
-                    x += speed;
-                    x = Math.max(0, x);
-                    break;
-            }
-        }
-        spriteCounter++;
-        if (spriteCounter > 12) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
-        }
-    }
-
     public void draw(Graphics2D g) {
         ImageIcon img = null;
+        g.setFont(arial_40);
+        g.setColor(Color.WHITE);
         switch (direction) {
             case "up":
                 if (spriteNum == 1) {
@@ -114,6 +77,8 @@ public class Entity {
                 }
                 break;
         }
+
+        g.drawString(healthPower + "", x+20, y+8);
         g.drawImage(img.getImage(), x, y, gp.tileSize, gp.tileSize, null);
     }
 

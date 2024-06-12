@@ -63,4 +63,50 @@ public class NPC_Monster extends Entity {
 
     }
 
+    public void update() {
+        setAction();
+        collisionOn = false;
+        gp.collCheck.checkTile(this);
+        boolean contactPlayer = gp.collCheck.checkPlayer(this);
+        gp.collCheck.checkEntity(this, gp.boss);
+        //gp.collCheck.checkEntity(this, gp.NPC);
+
+        if (contactPlayer == true && invincible == false ) { // nếu monster chạm vào player thì có thể tấn công
+            gp.player.healthPower -= 1;
+            System.out.println("Health Power: " + gp.player.healthPower);
+            gp.player.invincible = true;
+            gp.player.invincibleCounter = 0;
+        }
+        // collitionOn = false -> can move
+        if (collisionOn == false) {
+            switch (direction) {
+                case "up":
+                    y -= speed;
+                    y = Math.max(-24, y);
+                    break;
+                case "down":
+                    y += speed;
+                    y = Math.min(gp.screenHeight - gp.tileSize, y);
+                    break;
+                case "left":
+                    x -= speed;
+                    x = Math.max(0, x);
+                    break;
+                case "right":
+                    x += speed;
+                    x = Math.max(0, x);
+                    break;
+            }
+        }
+        spriteCounter++;
+        if (spriteCounter > 12) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
+    }
+
 }

@@ -7,15 +7,14 @@ import game.GamePanel;
 
 
 public class Boss extends Entity{
-    public int healthPower = 10;
-    public Boss(GamePanel gp) {
+    public int healthPower = 1;
+    public Boss(GamePanel gp, String fileName) {
         super(gp);
-        setDefaultValues();
+        setDefaultValues(fileName);
         name = "Boss";
-        getImage();
     }
     
-    void setDefaultValues() {
+    void setDefaultValues(String fileName) {
         x = 9*gp.tileSize;
         y = 1*gp.tileSize;
         solidArea = new Rectangle();
@@ -25,13 +24,13 @@ public class Boss extends Entity{
         solidDefaultY = solidArea.y;
         solidArea.width = 96;
         solidArea.height = 96;
-        getImage();
+        getImage(fileName);
         collisionOn = true;
     }
 
-    void getImage() {
+    void getImage(String fileName) {
         try {
-            img = new ImageIcon("src/img/NPC/boss-demo.png");
+            img = new ImageIcon(fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }

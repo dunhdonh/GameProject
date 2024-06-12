@@ -7,7 +7,6 @@ import entity.Boss;
 import item.AbsItem;
 import java.util.Random;
 
-
 import java.awt.*;
 
 import Tile.TileManager;
@@ -37,15 +36,16 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyHandle);
     TileManager tileManager = new TileManager(this);
     public CollisionCheck collCheck = new CollisionCheck(this);
-    public AbsItem item[] = new AbsItem[26];
+    public AbsItem item[] = new AbsItem[27];
 
     public NPC_Monster NPC[] = new NPC_Monster[16];
     public Boss[] boss = new Boss[1];
 
     // Game State
     public int state;
+    public final int startStage = 0;
     public final int playStage = 1;
-    public final int pause = 2;
+    public final int pauseStage = 2;
     public final int gameOver = 3;
     public final int passRound = 4;
 
@@ -69,18 +69,21 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setUpGame() {
-        aSetter.setBoss();
+        aSetter.setBoss("src/img/NPC/boss.png");
         aSetter.setNPC(0);
+        aSetter.setDoor();
         playMusic(0);
-        state = playStage;
+        state = startStage;
     }
 
     public void startGameThread() {
+
         gameThread = new Thread(this);
         gameThread.start();
     }
 
     public void update() {
+
         if (state == playStage || state == passRound) {
             randomCounter++;
 
@@ -114,8 +117,8 @@ public class GamePanel extends JPanel implements Runnable {
                         }
                     }
                 } else {
-                    for (int i = 21; i <= 25; i++) {
-                        if ((item[i] == null) && (powerUpCounter <= 5)) {
+                    for (int i = 21; i <= 24; i++) {
+                        if ((item[i] == null) && (powerUpCounter <= 4)) {
                             aSetter.setPowerUp(i);
                             System.out.println("Set Power Up: " + (i - 20));
                             powerUpCounter++;
@@ -126,11 +129,8 @@ public class GamePanel extends JPanel implements Runnable {
                     }
                 }
             }
-        }
-
-        if (state == pause) {
-        }
-        if (state == gameOver) {
+        } else if (state == pauseStage) {
+        } else if (state == gameOver) {
         }
 
     }
@@ -139,34 +139,37 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        // Background
-        tileManager.drawTile(g2);
+        if (state == startStage) {
+            ui.draw(g2);
+        } else {
+            // Background
+            tileManager.drawTile(g2);
 
-        // Boss
-        if (boss[0] != null) {
-            boss[0].draw(g2);
-        }
-
-        // Items
-        for (int i = 0; i < item.length; i++) {
-            if (item[i] != null) {
-                item[i].draw(g2, this);
+            // Boss
+            if (boss[0] != null) {
+                boss[0].draw(g2);
             }
-        }
 
-        // Player
-        player.draw(g2);
-
-        // mons
-        for (int i = 0; i < NPC.length; i++) {
-            if (NPC[i] != null) {
-                NPC[i].draw(g2);
+            // Items
+            for (int i = 0; i < item.length; i++) {
+                if (item[i] != null) {
+                    item[i].draw(g2, this);
+                }
             }
+
+            // Player
+            player.draw(g2);
+
+            // mons
+            for (int i = 0; i < NPC.length; i++) {
+                if (NPC[i] != null) {
+                    NPC[i].draw(g2);
+                }
+            }
+
+            // UI
+            ui.draw(g2);
         }
-
-        // UI
-        ui.draw(g2);
-
         g2.dispose();
     }
 
