@@ -15,12 +15,6 @@ public class NPC_Monster extends Entity {
 
     public void setDefaultValues(int round) {
         solidArea = new Rectangle();
-        solidArea.x = 6;
-        solidArea.y = 12;
-        solidDefaultX = solidArea.x;
-        solidDefaultY = solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 24;
         speed = 1;
         direction = "down";
         getImage(round);
@@ -29,18 +23,42 @@ public class NPC_Monster extends Entity {
 
     public void getImage(int round) {
         try {
-            switch (round){
+            switch (round) {
                 case 1:
                     img = new ImageIcon("src/img/NPC/mon1.png");
+                    solidArea.x = 6;
+                    solidArea.y = 12;
+                    solidDefaultX = solidArea.x;
+                    solidDefaultY = solidArea.y;
+                    solidArea.width = 32;
+                    solidArea.height = 24;
                     break;
                 case 2:
                     img = new ImageIcon("src/img/NPC/mon2.png");
+                    solidArea.x = 4;
+                    solidArea.y = 8;
+                    solidDefaultX = solidArea.x;
+                    solidDefaultY = solidArea.y;
+                    solidArea.width = 40;
+                    solidArea.height = 40;
                     break;
                 case 3:
                     img = new ImageIcon("src/img/NPC/mon3.png");
+                    solidArea.x = 4;
+                    solidArea.y = 7;
+                    solidDefaultX = solidArea.x;
+                    solidDefaultY = solidArea.y;
+                    solidArea.width = 44;
+                    solidArea.height = 40;
                     break;
                 case 4:
                     img = new ImageIcon("src/img/NPC/mon4.png");
+                    solidArea.x = 0;
+                    solidArea.y = 12;
+                    solidDefaultX = solidArea.x;
+                    solidDefaultY = solidArea.y;
+                    solidArea.width = 48;
+                    solidArea.height = 32;
                     break;
             }
         } catch (Exception e) {
@@ -75,9 +93,9 @@ public class NPC_Monster extends Entity {
         gp.collCheck.checkTile(this);
         boolean contactPlayer = gp.collCheck.checkPlayer(this);
         gp.collCheck.checkEntity(this, gp.boss);
-        //gp.collCheck.checkEntity(this, gp.NPC);
+        // gp.collCheck.checkEntity(this, gp.NPC);
 
-        if (contactPlayer == true && gp.player.invincible == false ) { // nếu monster chạm vào player thì có thể tấn công
+        if (contactPlayer == true && gp.player.invincible == false) { // nếu monster chạm vào player thì có thể tấn công
             gp.player.healthPower -= 1;
             healthPower -= 1;
             System.out.println("Health Power: " + gp.player.healthPower);

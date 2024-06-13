@@ -52,6 +52,9 @@ public class UI {
             if (gp.state == gp.passRound) {
                 drawPassRound();
             }
+            if (gp.state == gp.Win) {
+                drawWin();
+            }
         }
     }
 
@@ -84,7 +87,6 @@ public class UI {
         x = getXCentered("Press Q to Quit");
         g.drawString("Press Q to Quit", x, (y + 40));
 
-
     }
 
     // passRound screen
@@ -94,7 +96,7 @@ public class UI {
         g.drawString("NEXT ROUND", x, y);
     }
 
-    public void drawWin(){
+    public void drawWin() {
         int y = gp.screenHeight / 2;
         int x = getXCentered("YOU WIN");
         g.drawString("YOU WIN", x, y);
@@ -104,7 +106,7 @@ public class UI {
         g.drawString("Press Enter to Replay", x, y);
         x = getXCentered("Press Q to Quit");
         g.drawString("Press Q to Quit", x, (y + 40));
-        
+
     }
 
     public int getXCentered(String str) {

@@ -61,7 +61,7 @@ public class AssetSetter {
                 break;
             case 3:
             gp.NPC[i].x = gp.boss[0].x + 24;
-            gp.NPC[i].y = gp.boss[0].y + 84;
+            gp.NPC[i].y = gp.boss[0].y + 96;
                 break;
             case 4:
                 gp.NPC[i].x = 7 * gp.tileSize;
@@ -73,8 +73,8 @@ public class AssetSetter {
     public void setBoss(int round) {
         gp.boss[0] = new Boss(gp, round);
         gp.item[25] = new Key();
-        gp.item[25].x = gp.boss[0].x + 24;
-        gp.item[25].y = gp.boss[0].y + 24;
+        gp.item[25].x = gp.boss[0].x + 30;
+        gp.item[25].y = gp.boss[0].y + 30;
     }
 
     public void setDoor(int round) {
@@ -106,6 +106,7 @@ public class AssetSetter {
 
     public void setPlayer(int round) {
         gp.player = new Player(gp, gp.keyHandle);
+        gp.player.hasKey = false;
         switch (round) {
             case 1:
                 gp.player.x = 12;

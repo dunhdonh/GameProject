@@ -215,9 +215,9 @@ public class Player extends Entity {
     }
 
     boolean distanceToAttack() {
-        if ((x <= gp.boss[0].x + 96 + gp.tileSize) && (x >= gp.boss[0].x - gp.tileSize)
-                && (y <= gp.boss[0].y + gp.tileSize + 96)
-                && y >= gp.boss[0].y - gp.tileSize) {
+        if ((x <= gp.boss[0].x + 120 + gp.tileSize) && (x >= gp.boss[0].x - 24)
+                && (y <= gp.boss[0].y + gp.tileSize + 120)
+                && y >= gp.boss[0].y - 24) {
             return true;
         }
         return false;
