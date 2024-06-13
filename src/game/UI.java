@@ -13,7 +13,7 @@ public class UI {
     ImageIcon mp1, mp2, mp3, mp4, mp0;
 
     ImageIcon pauseIcon = new ImageIcon("src/img/panel/pause.png");
-    ImageIcon cup = new ImageIcon("src/img/item/cup.png");
+    ImageIcon Win = new ImageIcon("src/img/panel/youwin.jpg");
     ImageIcon gameOver = new ImageIcon("src/img/panel/gameover.png");
     ImageIcon passround = new ImageIcon("src/img/panel/passRound.png");
     ImageIcon start = new ImageIcon("src/img/panel/Start.png");
@@ -88,16 +88,7 @@ public class UI {
     }
 
     public void drawWin() {
-        g.drawImage(cup.getImage(), gp.screenWidth / 2 - 50, gp.screenHeight / 2 - 200, 100, 100, null);
-        int y = gp.screenHeight / 2;
-        int x = getXCentered("YOU WIN");
-        g.drawString("YOU WIN", x, y);
-
-        y = gp.screenHeight * 2 / 3;
-        x = getXCentered("Press Enter to Replay");
-        g.drawString("Press Enter to Replay", x, y);
-        x = getXCentered("Press Q to Quit");
-        g.drawString("Press Q to Quit", x, (y + 40));
+        g.drawImage(Win.getImage(), gp.screenWidth / 2 - 200, gp.screenHeight / 2 - 125, 400,  250, null);
 
     }
 
@@ -105,7 +96,6 @@ public class UI {
         int length = (int) g.getFontMetrics().getStringBounds(str, g).getWidth();
         return gp.screenWidth / 2 - length / 2;
     }
-
     public void drawHP() {
         if (gp.player.getHealthPower() == 4) {
             g.drawImage(hp4.getImage(), 10, 10, 160, 29, null);

@@ -105,7 +105,7 @@ public class AssetSetter {
 
     public void setPlayer(int round) {
         gp.player = new Player(gp, gp.keyHandle);
-        gp.player.hasKey = true;
+        gp.player.hasKey = false;
         switch (round) {
             case 1:
                 gp.player.x = 12;
