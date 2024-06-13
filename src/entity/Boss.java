@@ -89,7 +89,7 @@ public class Boss extends Entity {
 
     public void update() {
         actionLockCounter++;
-        if (actionLockCounter > 700) {
+        if (actionLockCounter > 400) {
             for (int i = 0; i <= 15; i++)
                 if (gp.NPC[i] == null) {
                     gp.aSetter.setNPC(i, gp.round);

@@ -50,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int passRound = 4;
     public final int Win = 5;
     public int round = 1;
+    public int delay = 0;
 
     // UI&Sound
     public UI ui = new UI(this);
@@ -131,8 +132,13 @@ public class GamePanel extends JPanel implements Runnable {
             }
         } else if (state == pauseStage) {
         } else if (state == passRound) {
-            state = playStage;
+            delay ++;
+            if (delay == 60){
+                delay = 0;
+                state = playStage;
             aSetter.setRound(round);
+            }
+            
         } else if (state == Win) {
         }else if (state == gameOver) {
         }

@@ -14,6 +14,9 @@ public class UI {
 
     ImageIcon pauseIcon = new ImageIcon("src/img/panel/pause.png");
     ImageIcon cup = new ImageIcon("src/img/item/cup.png");
+    ImageIcon gameOver = new ImageIcon("src/img/panel/gameover.png");
+    ImageIcon passround = new ImageIcon("src/img/panel/passRound.png");
+    ImageIcon start = new ImageIcon("src/img/panel/Start.png");
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -62,13 +65,7 @@ public class UI {
     // start screen
     public void drawStart() {
 
-        g.drawImage(gp.player.down1.getImage(), gp.screenWidth / 2 - 100, gp.screenHeight / 2 - 150, 200, 200, null);
-        g.setFont(g.getFont().deriveFont(Font.PLAIN, 25F));
-        int y = gp.screenHeight * 2 / 3;
-        int x = getXCentered("Press Enter to Start");
-        g.drawString("Press Enter to Start", x, y);
-        x = getXCentered("Press Q to Quit");
-        g.drawString("Press Q to Quit", x, (y + 40));
+        g.drawImage(start.getImage(), 0, 0, gp.screenWidth, gp.screenHeight, null);
     }
 
     // pause screen
@@ -78,23 +75,16 @@ public class UI {
 
     // game over screen
     public void drawGameOver() {
-        int y = gp.screenHeight / 3;
-        int x = getXCentered("GAME OVER");
-        g.drawString("GAME OVER", x, y);
-
-        y = gp.screenHeight * 2 / 3;
-        x = getXCentered("Press Enter to Retry");
-        g.drawString("Press Enter to Retry", x, y);
-        x = getXCentered("Press Q to Quit");
-        g.drawString("Press Q to Quit", x, (y + 40));
+        int y = gp.screenHeight / 3 - 75;
+        g.drawImage(gameOver.getImage(), gp.screenWidth / 2 - 200, y, 400, 300, null);
 
     }
 
     // passRound screen
     public void drawPassRound() {
-        int y = gp.screenHeight / 2;
-        int x = getXCentered("NEXT ROUND");
-        g.drawString("NEXT ROUND", x, y);
+        int y = gp.screenHeight / 2 - 100;
+        int x = gp.screenWidth / 2 - 150;
+        g.drawImage (passround.getImage(), x, y, 300, 200, null);
     }
 
     public void drawWin() {
