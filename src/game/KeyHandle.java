@@ -28,13 +28,35 @@ public class KeyHandle implements KeyListener{
         }
         if(code == KeyEvent.VK_SPACE) {
             if (gp.state == gp.playStage) {
-                gp.state = gp.pause;
-            } else if (gp.state == gp.pause) {
+                gp.state = gp.pauseStage;
+            } else if (gp.state == gp.pauseStage) {
                 gp.state = gp.playStage;
             }
         }
         if(code == KeyEvent.VK_ENTER) {
-            gp.player.attackBoss();
+            if (gp.state == gp.playStage) {
+                gp.player.attackBoss();
+            }
+            if (gp.state == gp.startStage) {
+                gp.state = gp.playStage;
+            }
+
+            if (gp.state == gp.gameOver) {
+                gp.state = gp.startStage;
+                gp.round = 1;
+                gp.aSetter.setRound(1);
+                gp.aSetter.setPlayer(1);
+            }
+
+            if (gp.state == gp.Win) {
+                gp.state = gp.startStage;
+                gp.round = 1;
+                gp.aSetter.setRound(1);
+                gp.aSetter.setPlayer(1);
+            }
+        }
+        if (code == KeyEvent.VK_Q) {
+            System.exit(0);
         }
     }
 

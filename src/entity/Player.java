@@ -10,10 +10,11 @@ import java.awt.Rectangle;
 public class Player extends Entity {
 
     KeyHandle keyHandle;
-
-    public int healthPower = 5;
+    public int healthPower = 4;
     public int attackPower = 0;
-    public int punch = 0;
+    public int manaPower = 0;
+
+    public boolean hasKey = false;
 
     public int getHealthPower() {
         return healthPower;
@@ -21,6 +22,10 @@ public class Player extends Entity {
 
     public int getAttackPower() {
         return attackPower;
+    }
+
+    public int getManaPower() {
+        return manaPower;
     }
 
     public Player(GamePanel gp, KeyHandle keyHandle) {
@@ -40,32 +45,36 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        this.x = 24;
-        this.y = 5 * 48;
         speed = 5;
         direction = "down";
     }
 
     public void getPlayerImage() {
         try {
-            up1 = new ImageIcon("src/img/player/boy_up_1.png");
-            up2 = new ImageIcon("src/img/player/boy_up_2.png");
-            down1 = new ImageIcon("src/img/player/boy_down_1.png");
-            down2 = new ImageIcon("src/img/player/boy_down_2.png");
-            left1 = new ImageIcon("src/img/player/boy_left_1.png");
-            left2 = new ImageIcon("src/img/player/boy_left_2.png");
-            right1 = new ImageIcon("src/img/player/boy_right_1.png");
-            right2 = new ImageIcon("src/img/player/boy_right_2.png");
+            up1 = new ImageIcon("src/img/player/up1.png");
+            up2 = new ImageIcon("src/img/player/up2.png");
+            down1 = new ImageIcon("src/img/player/down1.png");
+            down2 = new ImageIcon("src/img/player/down2.png");
+            left1 = new ImageIcon("src/img/player/left1.png");
+            left2 = new ImageIcon("src/img/player/left2.png");
+            right1 = new ImageIcon("src/img/player/right1.png");
+            right2 = new ImageIcon("src/img/player/right2.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void update() {
-        if (attackPower >= 10) {
-            punch++;
+        
+        if (attackPower >= 10 && manaPower < 4 ) {
+            manaPower++;
             attackPower -= 10;
         }
+
+        if (healthPower <= 0) {
+            gp.state = gp.gameOver;
+        }
+
 
         if (keyHandle.up || keyHandle.down || keyHandle.left || keyHandle.right) {
             if (keyHandle.up) {
@@ -81,18 +90,19 @@ public class Player extends Entity {
                 direction = "right";
             }
 
-            // check tile collision
             collisionOn = false;
+            // check tile collision
             gp.collCheck.checkTile(this);
+
+            // check NPC collision
+            int NPCindex = gp.collCheck.checkEntity(this, gp.NPC);
+            interactWithNPC(NPCindex);
+
+            gp.collCheck.checkEntity(this, gp.boss);
 
             // check item collision
             int itemIndex = gp.collCheck.checkItem(this, true);
             pickUpItem(itemIndex);
-
-            int NPCindex = gp.collCheck.checkEntity(this, gp.NPC);
-            interactieWithNPC(NPCindex);
-
-            gp.collCheck.checkEntity(this, gp.boss);
 
             // collitionOn = false -> can move
             if (collisionOn == false) {
@@ -115,6 +125,7 @@ public class Player extends Entity {
                         break;
                 }
             }
+
             spriteCounter++;
             if (spriteCounter > 12) {
                 if (spriteNum == 1) {
@@ -125,6 +136,14 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+
+        if (invincible == true) {
+            invincibleCounter++;
+            if (invincibleCounter > 60) {
+                invincibleCounter = 0;
+                invincible = false;
+            }
+        }
     }
 
     public void pickUpItem(int index) {
@@ -132,60 +151,89 @@ public class Player extends Entity {
             String itemName = gp.item[index].name;
 
             switch (itemName) {
-                case "Lucky":
+                case "GaRan":
                     gp.playSoundEffect(2);
-                    if (healthPower < 5) {
+                    gp.powerUpCounter--;
+                    if (healthPower < 4) {
                         healthPower++;
                         System.out.println("Health Power: " + healthPower);
                     }
+                        gp.aSetter.set.remove(gp.item[index].z);
+                        gp.item[index] = null;
+
                     break;
                 case "Coin":
                     gp.playSoundEffect(1);
+                    gp.coinCounter--;
                     if (attackPower < 10) {
                         attackPower += 5;
                         System.out.println("Attack Power: " + attackPower);
+                        gp.aSetter.set.remove(gp.item[index].z);
+                        gp.item[index] = null;
+
                     }
                     break;
+                case "Key":
+                    gp.playSoundEffect(2);
+                    hasKey = true;
+                    gp.aSetter.set.remove(gp.item[index].z);
+                    gp.item[index] = null;
+
+                    break;
+
+                case "Door":
+                if (hasKey) {
+                    gp.playSoundEffect(3);
+                    gp.state = gp.passRound;
+                    if (gp.round <= 3) {
+                        gp.round++;
+                    }
+                    else if (gp.round == 4) {
+                        gp.state = gp.Win;
+                    }
+                }
+                    break;
             }
-            gp.item[index] = null;
         }
     }
 
-    public void interactieWithNPC(int index) {
+    public void interactWithNPC(int index) {
         if (index != 999) {
-            healthPower -= gp.NPC[index].healthPower;
-            gp.NPC[index].healthPower--;
-            System.out.println("Health Power: " + healthPower);
-            if (gp.NPC[index].healthPower <= 0) {
-                gp.NPC[index] = null;
+            if (invincible == false) {
+
+                healthPower --;
+                gp.NPC[index].healthPower--;
+                if (gp.NPC[index].healthPower <= 0) {
+                    gp.NPC[index] = null;
+                }
+                System.out.println("Health Power: " + healthPower);
+                invincible = true;
+                invincibleCounter = 0;
             }
-            if (healthPower <= 0) {
-                gp.state = gp.gameOver;
-            }
+
         }
     }
 
     boolean distanceToAttack() {
-        if ((x <= gp.boss[0].x + 96 + gp.tileSize) && (x >= gp.boss[0].x - gp.tileSize) && (y <= gp.boss[0].y + gp.tileSize + 96)
-                && y >= gp.boss[0].y - gp.tileSize) {
+        if ((x <= gp.boss[0].x + 120 + gp.tileSize) && (x >= gp.boss[0].x - 24)
+                && (y <= gp.boss[0].y + gp.tileSize + 120)
+                && y >= gp.boss[0].y - 24) {
             return true;
         }
         return false;
     }
 
     public void attackBoss() {
-        if (punch > 0 && distanceToAttack()) {
+        if (manaPower > 0 && distanceToAttack()) {
             gp.boss[0].healthPower--;
-            punch--;
+            manaPower--;
             System.out.println("Boss Health: " + gp.boss[0].healthPower);
             if (gp.boss[0].healthPower <= 0) {
                 gp.boss[0] = null;
-                gp.state = gp.passRound;
             }
-        } else
-        if (punch == 0)
+        } else if (manaPower == 0)
             System.out.println("You don't have enough power to attack the boss!");
-            else if (!distanceToAttack())
+        else if (!distanceToAttack())
             System.out.println("You are not close enough to attack the boss!");
 
     }

@@ -11,9 +11,12 @@ public class AbsItem {
     public String name;
     public boolean collision = false;
     public int x, y;
+    public int z=x+16*y;
 
-    public Rectangle solidArea = new Rectangle(0,0, 48, 48);
+    public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+
     public int solidDefaultX = 0, solidDefaultY = 0;
+
 
 
     public void draw(Graphics2D g, GamePanel gp) {
