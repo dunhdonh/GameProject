@@ -28,6 +28,9 @@ public class Player extends Entity {
         return manaPower;
     }
 
+    ImageIcon effect = new ImageIcon("src/img/player/effect.png");
+    boolean attacking = false;
+
     public Player(GamePanel gp, KeyHandle keyHandle) {
         super(gp);
         this.keyHandle = keyHandle;
@@ -225,6 +228,7 @@ public class Player extends Entity {
 
     public void attackBoss() {
         if (manaPower > 0 && distanceToAttack()) {
+            attacking = true;
             gp.boss[0].healthPower--;
             manaPower--;
             System.out.println("Boss Health: " + gp.boss[0].healthPower);

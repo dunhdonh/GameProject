@@ -13,6 +13,7 @@ public class UI {
     ImageIcon mp1, mp2, mp3, mp4, mp0;
 
     ImageIcon pauseIcon = new ImageIcon("src/img/panel/pause.png");
+    ImageIcon cup = new ImageIcon("src/img/item/cup.png");
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -97,6 +98,7 @@ public class UI {
     }
 
     public void drawWin() {
+        g.drawImage(cup.getImage(), gp.screenWidth / 2 - 50, gp.screenHeight / 2 - 200, 100, 100, null);
         int y = gp.screenHeight / 2;
         int x = getXCentered("YOU WIN");
         g.drawString("YOU WIN", x, y);

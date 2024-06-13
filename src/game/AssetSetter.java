@@ -35,7 +35,6 @@ public class AssetSetter {
     }
 
     public void setPowerUp(int i) {
-
         do {
             k = gp.tileManager.getRandomReachableIndex();
         } while (set.contains(k));
