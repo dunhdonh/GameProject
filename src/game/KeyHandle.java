@@ -4,7 +4,12 @@ import java.awt.event.KeyListener;
 
 public class KeyHandle implements KeyListener{
 
+    GamePanel gp;
     public boolean up, down, left, right;
+
+    public KeyHandle(GamePanel gp){
+        this.gp = gp;
+    }
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -20,6 +25,38 @@ public class KeyHandle implements KeyListener{
         }
         if(code == KeyEvent.VK_RIGHT) {
             right = true;
+        }
+        if(code == KeyEvent.VK_SPACE) {
+            if (gp.state == gp.playStage) {
+                gp.state = gp.pauseStage;
+            } else if (gp.state == gp.pauseStage) {
+                gp.state = gp.playStage;
+            }
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            if (gp.state == gp.playStage) {
+                gp.player.attackBoss();
+            }
+            if (gp.state == gp.startStage) {
+                gp.state = gp.playStage;
+            }
+
+            if (gp.state == gp.gameOver) {
+                gp.state = gp.startStage;
+                gp.round = 1;
+                gp.aSetter.setRound(1);
+                gp.aSetter.setPlayer(1);
+            }
+
+            if (gp.state == gp.Win) {
+                gp.state = gp.startStage;
+                gp.round = 1;
+                gp.aSetter.setRound(1);
+                gp.aSetter.setPlayer(1);
+            }
+        }
+        if (code == KeyEvent.VK_Q) {
+            System.exit(0);
         }
     }
 
